@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="flex items-center justify-center h-screen bg-cover bg-center">
+
+    <div class="border-0 w-full mx-4 sm:mx-auto max-w-lg rounded-3xl shadow-lg p-10 bg-transparent relative"
+        style="backdrop-filter: blur(4px); background-color: rgba(240, 248, 255, 0.137);">
+
+        <div id="loading" class="flex absolute my-20 mx-19 sm:mx-35 items-center gap-2 text-gray-500">
+            <div class="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
+            <span>Getting location...</span>
+        </div>
+
+        <!-- search start -->
+        <div class="flex flex-col items-center my-5 pe-5">
+
+            <div class="relative w-full">
+                <input type="text" id="input" class="w-full rounded-full border-2 px-4 py-2 pr-10 focus:outline-none"
+                    placeholder="Enter location">
+
+                <button class="absolute right-3 top-3 cursor-pointer" title="search" id="searchBtn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+
+                <button class="absolute mt-1 cursor-pointer hover:scale-120 ease-in-out transition-transform text-3xl"
+                    title="current location" id="currentLocation"><i class="fa-solid fa-location-dot"></i></button>
+
+            </div>
+
+            <div>
+                <h3 id="validate" class="text-red-500 mt-2"></h3>
+            </div>
+
+        </div>
+        <!-- search end -->
+
+        <div class="flex flex-col items-center gap-3">
+            <img src="/images/weather-condition/cloudy-day.png" alt="" id="icon"
+                class="w-35 h-35 mx-auto object-contain">
+            <p id="weather-condition" class="font-semibold text-lg mt-0 text-gray-500">Weather Condition</p>
+            <p class="text-5xl font-bold mt-2"><span id="temp"></span><span id="deg">&deg;C</span></p>
+            <p id="time" class="text-gray-500 text-sm opacity-70">Local Time</p>
+            <p id="area" class="text-lg font-semibold">City, Region - Country</p>
+        </div>
+
+    </div>
+</body>
+
+</html>
