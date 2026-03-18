@@ -174,11 +174,11 @@ function setBackground(data) {
         loading.style.color = 'gray';
     }
 
-    document.body.style.backgroundImage = `url('/images/weather-bg/${bg}')`;
+    document.body.style.backgroundImage = `url('images/weather-bg/${bg}')`;
     const icon = document.getElementById('icon');
 
     if (icon && icons) {
-        icon.src = `/images/weather-condition/${icons}`;
+        icon.src = `images/weather-condition/${icons}`;
     }
 
 }
