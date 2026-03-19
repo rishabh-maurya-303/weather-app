@@ -8,7 +8,10 @@ const currentLocationBtn = document.getElementById('currentLocation');
 // const icon = document.getElementById('icon');
 const weatherCondition = document.getElementById('weather-condition');
 const deg = document.getElementById('deg');
-const loading = document.getElementById("loading");
+// const loading = document.getElementById("loading");
+const popup = document.getElementById("locationPopup");
+const popupText = document.getElementById("popupText");
+const retryBtn = document.getElementById("retryBtn");
 
 
 async function getData(locationInput, lat, long) {
@@ -53,6 +56,7 @@ searchBtn.addEventListener('click', async () => {
     }
 })
 
+// current location
 async function gotCurrentLoaction(position) {
     const data = await getData(position.coords.latitude, position.coords.longitude);
 
@@ -77,20 +81,48 @@ async function gotCurrentLoaction(position) {
     weatherCondition.innerText = weather_Condition;
     setBackground(data);
     // console.log(data);
-    loading.classList.add("hidden"); // hide loader
+    // loading.classList.add("hidden"); // hide loader
+
+    popup.style.display = "none"; // hide popup
+    locationInput.style.border = '2px solid black';
+    validateInput.innerText = '';
 }
 
 async function failedCurrentLocation() {
-    validateInput.innerText = 'Error getting location';
+    // validateInput.innerText = 'Error getting location';
+
+    popup.style.display = "flex"; // ensure popup visible
+    popupText.innerText = "Enable location to continue";
+    retryBtn.classList.remove("hidden");
+
+    retryBtn.onclick = () => {
+        popupText.innerText = "Getting your location...";
+        retryBtn.classList.add("hidden");
+
+        navigator.geolocation.getCurrentPosition(
+            gotCurrentLoaction,
+            failedCurrentLocation,
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    };
 }
 
 currentLocationBtn.addEventListener('click', async () => {
+
+    popup.style.display = "flex"; // show popup
+    popupText.innerText = "Getting your location...";
+    retryBtn.classList.add("hidden");
+
     navigator.geolocation.getCurrentPosition(gotCurrentLoaction, failedCurrentLocation, {
         enableHighAccuracy: true,
         timeout: 10000,
         maximumAge: 0
     });
-    loading.classList.remove("hidden"); // show loader
+    // loading.classList.remove("hidden"); // show loader
 
 })
 
@@ -102,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeout: 10000,
         maximumAge: 0
     });
-    loading.classList.remove("hidden");
+    // loading.classList.remove("hidden");
 })
 
 
@@ -162,7 +194,7 @@ function setBackground(data) {
         time.style.color = 'white';
         area.style.color = 'white';
         deg.style.color = 'white';
-        loading.style.color = 'white';
+        // loading.style.color = 'white';
     }
 
     else {
@@ -171,7 +203,7 @@ function setBackground(data) {
         time.style.color = 'gray';
         area.style.color = 'black';
         deg.style.color = 'black';
-        loading.style.color = 'gray';
+        // loading.style.color = 'gray';
     }
 
     document.body.style.backgroundImage = `url('images/weather-bg/${bg}')`;
@@ -182,4 +214,3 @@ function setBackground(data) {
     }
 
 }
-

@@ -14,13 +14,27 @@
 
 <body class="flex items-center justify-center h-screen bg-cover bg-center">
 
+    <div id="locationPopup" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+
+        <div class="bg-white p-6 rounded-xl text-center shadow-lg w-80">
+            <h2 id="popupText" class="text-lg font-semibold">
+                Getting your location...
+            </h2>
+
+            <button id="retryBtn" class="hidden mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+                Retry
+            </button>
+        </div>
+
+    </div>
+
     <div class="border-0 w-full mx-4 sm:mx-auto max-w-lg rounded-3xl shadow-lg p-10 bg-transparent relative"
         style="backdrop-filter: blur(4px); background-color: rgba(240, 248, 255, 0.137);">
 
-        <div id="loading" class="flex absolute my-20 mx-19 sm:mx-35 items-center gap-2 text-gray-500">
+        <!-- <div id="loading" class="flex absolute my-20 mx-19 sm:mx-35 items-center gap-2 text-gray-500">
             <div class="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin"></div>
             <span>Getting location...</span>
-        </div>
+        </div> -->
 
         <!-- search start -->
         <div class="flex flex-col items-center my-5 pe-5">
