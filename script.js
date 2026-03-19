@@ -14,24 +14,44 @@ const popupText = document.getElementById("popupText");
 const retryBtn = document.getElementById("retryBtn");
 
 
-async function getData(locationInput, lat, long) {
+async function getDataByCity(locationInput) {
     const promise = await fetch(`https://api.weatherapi.com/v1/current.json?key=eae446bc3fc847189d171641261003&q=${locationInput}&aqi=yes`)
     return await promise.json();
 }
 
 // on search
+
+locationInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        searchBtn.click(); // reuse same logic
+    }
+});
+
 searchBtn.addEventListener('click', async () => {
     const value = locationInput.value;
+
     if (value === '') {
         validateInput.innerText = 'Enter Location';
         locationInput.style.border = '2px solid red';
+        return;
     }
-    else {
 
-        locationInput.style.border = '';
-        validateInput.innerText = '';
+    locationInput.style.border = '';
+    validateInput.innerText = '';
 
-        const data = await getData(value);
+    try {
+        validateInput.innerText = 'Fetching weather...';
+        validateInput.style.color = 'green';
+
+        const data = await getDataByCity(value);
+
+        // API error (location not found)
+        if (data.error) {
+            validateInput.innerText = data.error.message || "Location not found";
+            validateInput.style.color = "red";
+            return;
+        }
+
         const location = `${data.location.name}, ${data.location.region} - ${data.location.country}`;
         const localTime = `${data.location.localtime}`;
         const dateObj = new Date(localTime);
@@ -53,18 +73,26 @@ searchBtn.addEventListener('click', async () => {
         weatherCondition.innerText = weather_Condition;
         setBackground(data);
         // console.log(data);
+
+        validateInput.innerText = '';
+
+    } catch (error) {
+        // Only real network issues
+        console.log(error);
+        validateInput.innerText = "Network error ";
+        validateInput.style.color = "red";
     }
 })
 
 
-async function getData(lat, long) {
+// current location
+async function getDataByCoords(lat, long) {
     const promise = await fetch(`https://api.weatherapi.com/v1/current.json?key=eae446bc3fc847189d171641261003&q=${lat},${long}&aqi=yes`)
     return await promise.json();
 }
 
-// current location
 async function gotCurrentLoaction(position) {
-    const data = await getData(position.coords.latitude, position.coords.longitude);
+    const data = await getDataByCoords(position.coords.latitude, position.coords.longitude);
 
     const location = `${data.location.name}, ${data.location.region} - ${data.location.country}`;
     const localTime = `${data.location.localtime}`;
@@ -92,7 +120,7 @@ async function gotCurrentLoaction(position) {
     popup.style.display = "none"; // hide popup
     locationInput.style.border = '2px solid black';
     validateInput.innerText = '';
-    
+
 }
 
 async function failedCurrentLocation() {
