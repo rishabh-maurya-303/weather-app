@@ -15,7 +15,7 @@ const retryBtn = document.getElementById("retryBtn");
 
 
 async function getData(locationInput, lat, long) {
-    const promise = await fetch(`https://api.weatherapi.com/v1/current.json?key=eae446bc3fc847189d171641261003&q=${locationInput},${lat},${long}&aqi=yes`)
+    const promise = await fetch(`https://api.weatherapi.com/v1/current.json?key=eae446bc3fc847189d171641261003&q=${locationInput}&aqi=yes`)
     return await promise.json();
 }
 
@@ -56,6 +56,12 @@ searchBtn.addEventListener('click', async () => {
     }
 })
 
+
+async function getData(lat, long) {
+    const promise = await fetch(`https://api.weatherapi.com/v1/current.json?key=eae446bc3fc847189d171641261003&q=${lat},${long}&aqi=yes`)
+    return await promise.json();
+}
+
 // current location
 async function gotCurrentLoaction(position) {
     const data = await getData(position.coords.latitude, position.coords.longitude);
@@ -86,6 +92,7 @@ async function gotCurrentLoaction(position) {
     popup.style.display = "none"; // hide popup
     locationInput.style.border = '2px solid black';
     validateInput.innerText = '';
+    
 }
 
 async function failedCurrentLocation() {
